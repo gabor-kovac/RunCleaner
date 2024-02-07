@@ -25,7 +25,7 @@ jobs:
         run: dotnet restore ./Source
 
       - name: Build
-        run: dotnet publish ./Source --configuration Release --no-restore --rid ${{ matrix.rid }} --self-contained --output output/
+        run: dotnet publish ./Source --configuration Release --no-restore -r ${{ matrix.rid }} --self-contained --output output/
 
       - name: Publish linux release
         if: matrix.rid == 'linux-x64'
