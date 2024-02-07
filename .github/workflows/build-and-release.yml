@@ -25,6 +25,8 @@ jobs:
       - name: Build
         run: dotnet publish ./Source --configuration Release --self-contained -r ${{ matrix.rid }} --output output/
 
+      - run: ls -R
+
       - name: Publish linux release
         if: matrix.rid == 'linux-x64'
         uses: svenstaro/upload-release-action@2.7.0
