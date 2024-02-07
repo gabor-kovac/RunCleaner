@@ -21,11 +21,9 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore ./Source
 
       - name: Build
-        run: dotnet publish ./Source --configuration Release --no-restore -r ${{ matrix.rid }} --self-contained --output output/
+        run: dotnet publish ./Source --configuration Release --self-contained -r ${{ matrix.rid }} --output output/
 
       - name: Publish linux release
         if: matrix.rid == 'linux-x64'
