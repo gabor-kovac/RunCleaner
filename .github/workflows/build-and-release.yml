@@ -1,0 +1,42 @@
+name: .NET
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        rid: [linux-x64, win-x64]
+
+    runs-on: ubuntu-latest	
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet publish ./Source --configuration Release --no-restore --rid ${{ matrix.rid }} --self-contained --output output/
+
+      - name: Publish linux release
+        if: matrix.rid == 'linux-x64'
+        uses: svenstaro/upload-release-action@2.7.0
+        with:
+          file: output/RunCleaner
+          asset_name: RunCleaner-linux_x64
+
+      - name: Publish windows release
+        if: matrix.rid == 'win-x64'
+        uses: svenstaro/upload-release-action@2.7.0
+        with:
+          file: output/RunCleaner.exe
+          asset_name: RunCleaner-win_x64.exe
