@@ -27,10 +27,17 @@ jobs:
       - name: Build
         run: dotnet publish ./Source --configuration Release --self-contained -r ${{ matrix.rid }} --output output/
 
-      - name: Bump version and push tag
-        uses: darioblanco/bump-semver@v1.0.0
+      - name: Get Previous tag
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1.4.0"
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fallback: 1.0.0
+
+      - name: 'Get next minor version'
+        id: semvers
+        uses: "WyriHaximus/github-action-next-semvers@v1.2.1"
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
 
       - name: Archive linux binary
         if: matrix.rid == 'linux-x64'
@@ -44,14 +51,16 @@ jobs:
         if: matrix.rid == 'linux-x64'
         uses: svenstaro/upload-release-action@2.7.0
         with:
+          tag: ${{ steps.semvers.outputs.patch }}
           file: ./RunCleaner_linux-x64.zip
-          asset_name: RunCleaner_${{ steps.set_version.outputs.version }}_linux-x64
-          release_name: ${{ steps.set_version.outputs.version }}
+          asset_name: RunCleaner_${{ steps.semvers.outputs.patch }}_linux-x64
+          release_name: ${{ steps.semvers.outputs.patch }}
 
       - name: Publish windows release
         if: matrix.rid == 'win-x64'
         uses: svenstaro/upload-release-action@2.7.0
         with:
+          tag: ${{ steps.semvers.outputs.patch }}
           file: ./RunCleaner_win-x64.zip
-          asset_name: RunCleaner_${{ steps.set_version.outputs.version }}_win-x64
-          release_name: ${{ steps.set_version.outputs.version }}
+          asset_name: RunCleaner_${{ steps.semvers.outputs.patch }}_win-x64
+          release_name: ${{ steps.semvers.outputs.patch }}
