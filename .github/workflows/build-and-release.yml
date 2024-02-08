@@ -43,11 +43,11 @@ jobs:
 
       - name: Archive linux binary
         if: matrix.rid == 'linux-x64'
-        run: zip RunCleaner_linux-x64 ./output/RunCleaner
+        run: zip -j RunCleaner_linux-x64 ./output/RunCleaner
 
       - name: Archive windows binary
         if: matrix.rid == 'win-x64'
-        run: zip RunCleaner_win-x64 ./output/RunCleaner.exe
+        run: zip -j RunCleaner_win-x64 ./output/RunCleaner.exe
 
       - name: Publish linux release
         if: matrix.rid == 'linux-x64'
