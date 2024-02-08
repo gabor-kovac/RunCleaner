@@ -2,15 +2,76 @@
 
 Automatically cleans out workflow runs from repositories
 
+This application is written in C# using .NET 8 SDK
+
+Release is a standalone binary, thus .NET runtime is not needed
+
+Supports Linux x64 and Windows x64
+
+## Prepare
+
+1. Download [latest release](https://github.com/gabor-kovac/runcleaner/releases/latest) for your platform
+2. Extract release ZIP archive
+3. Run using command line
+
 ## Usage
 
-Envoke with:
+This application has no GUI. You will need to use a command-line shell to launch it.
 
-```shell
-./RunCleaner
-```
+**Linux**
+
+Invoke with, in a terminal emulator:
+
+1. Set environment variables
+
+    ```shell
+    GITHUB_OWNER=<username>
+    ```
+
+2. Run the application
+    ```shell
+    ./RunCleaner
+    ```
+
+3. Optionally do it all inline:
+    ```shell
+    GITHUB_TOKEN=<token> GITHUB_OWNER=<username> ./RunCleaner
+    ```
+
+**Windows:**
+
+1. Set environment variables
+
+    Using PowerShell:
+    ```powershell
+    $env:GITHUB_OWNER='<username>';
+    ```
+
+    Using Command Prompt:
+    ```cmd
+    set GITHUB_OWNER=<username>
+    ```
+
+    Using Git Bash:
+    ```
+    GITHUB_OWNER=<username>
+    ```
+
+2. Run the application
+
+    PowerShell or Command Prompt:
+    ```powershell
+    .\RunCleaner.exe
+    ```
+
+    Git Bash:
+    ```bash
+    ./RunCleaner.exe
+    ```
 
 ### Environment variables:
+
+You must provide the mandatory variables
 
 **Mandatory:**
 * `GITHUB_TOKEN` - Github [PAT](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token), must have `repo` scope
@@ -24,7 +85,7 @@ Optional:
 
 Requirement: [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
-Build with:
+Build with inside the `Source` directory:
 ```shell
 dotnet build
 ```

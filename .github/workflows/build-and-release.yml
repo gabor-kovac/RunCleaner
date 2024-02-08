@@ -27,18 +27,34 @@ jobs:
       - name: Build
         run: dotnet publish ./Source --configuration Release --self-contained -r ${{ matrix.rid }} --output output/
 
-      - run: ls -R
+      - name: Set application version
+        id: set_version
+        uses: kvendingoldo/semver-action@v1.18
+        with:
+          enable_github_releases: true
+          release_tag_prefix: "v"
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Archive linux binary
+        if: matrix.rid == 'linux-x64'
+        run: zip RunCleaner_linux-x64 ./output/RunCleaner
+
+      - name: Archive windows binary
+        if: matrix.rid == 'win-x64'
+        run: zip RunCleaner_win-x64 ./output/RunCleaner.exe
 
       - name: Publish linux release
         if: matrix.rid == 'linux-x64'
         uses: svenstaro/upload-release-action@2.7.0
         with:
-          file: ./output/RunCleaner
-          asset_name: RunCleaner-linux_x64
+          file: ./RunCleaner_linux-x64.zip
+          asset_name: RunCleaner_${{ steps.set_version.outputs.version }}_linux-x64
+          release_name: ${{ steps.set_version.outputs.version }}
 
       - name: Publish windows release
         if: matrix.rid == 'win-x64'
         uses: svenstaro/upload-release-action@2.7.0
         with:
-          file: ./output/RunCleaner.exe
-          asset_name: RunCleaner-win_x64.exe
+          file: ./RunCleaner_win-x64.zip
+          asset_name: RunCleaner_${{ steps.set_version.outputs.version }}_win-x64
+          release_name: ${{ steps.set_version.outputs.version }}
