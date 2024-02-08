@@ -53,7 +53,7 @@ jobs:
         with:
           tag: ${{ steps.semvers.outputs.patch }}
           file: ./RunCleaner_linux-x64.zip
-          asset_name: RunCleaner_${{ steps.semvers.outputs.patch }}_linux-x64
+          asset_name: RunCleaner_${{ steps.semvers.outputs.patch }}_linux-x64.zip
           release_name: ${{ steps.semvers.outputs.patch }}
 
       - name: Publish windows release
@@ -62,5 +62,5 @@ jobs:
         with:
           tag: ${{ steps.semvers.outputs.patch }}
           file: ./RunCleaner_win-x64.zip
-          asset_name: RunCleaner_${{ steps.semvers.outputs.patch }}_win-x64
+          asset_name: RunCleaner_${{ steps.semvers.outputs.patch }}_win-x64.zip
           release_name: ${{ steps.semvers.outputs.patch }}
