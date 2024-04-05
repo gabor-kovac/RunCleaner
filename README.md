@@ -113,4 +113,4 @@ The scripts and documentation in this project are released under the [MIT](LICEN
 
 ## Credits
 
-[LinkHeaders.cs](Source/LinkHeaders.cs) - Extension of [pimbrouwers](https://gist.github.com/pimbrouwers/8f78e318ccfefff18f518a483997be29)'s
+[LinkHeader.cs](Source/LinkHeader.cs) - Extension of [pimbrouwers](https://gist.github.com/pimbrouwers/8f78e318ccfefff18f518a483997be29)'s
